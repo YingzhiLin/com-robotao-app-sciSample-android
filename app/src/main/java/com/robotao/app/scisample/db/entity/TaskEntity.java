@@ -1,11 +1,11 @@
-package com.robotao.app.scisample;
+package com.robotao.app.scisample.db.entity;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity
-public class Task {
+@Entity(tableName = "task")
+public class TaskEntity {
     @PrimaryKey
     public int uid;
 
