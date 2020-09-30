@@ -1,9 +1,14 @@
-package com.robotao.app.scisample;
+package com.robotao.app.scisample.ui;
 
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.robotao.app.scisample.AppExecutors;
+import com.robotao.app.scisample.DataRepository;
+import com.robotao.app.scisample.R;
+import com.robotao.app.scisample.databinding.ActivityMainBinding;
+import com.robotao.app.scisample.viewmodel.Viewmodel_task;
 import com.robotao.app.scisample.db.AppDatabase;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,16 +23,18 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        // database
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(),
-                AppDatabase.class, "com_robotao_app_scisample").build();
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
+        Toolbar toolbar = binding.toolbar;
+        setSupportActionBar(toolbar);
 
         // Create a ViewModel the first time the system calls an activity's onCreate() method.
         // Re-created activities receive the same Viewmodel_task instance created by the first activity.
@@ -47,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         // Observe the LiveData, passing in this activity as the LifecycleOwner and the observer.
         model.getCurrentName().observe(this, nameObserver); */
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        FloatingActionButton fab = binding.fab;
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -77,5 +84,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        binding = null;
     }
 }
